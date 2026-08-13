@@ -1,0 +1,22 @@
+body {
+    background-color: lightslategrey;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.squares-grid {
+    display: grid;
+    grid-template-columns: var(--num-cols, repeat(3, 1fr));
+    grid-template-rows: var(--num-rows, repeat(3, 1fr));
+    width: min(90vw, 90vh);
+    height: min(90vw, 90vh);
+    gap: 10%;
+}
+
+.square {
+    aspect-ratio: 1/1;
+    background-color: var(--pixel-colour, #1e1e1e);
+    transition: background-color 0.15s ease;
+}
