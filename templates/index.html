@@ -8,13 +8,7 @@
         <div class="squares-grid">
 
             {{range .Squares}}
-            <div id="square-{{.ID}}"
-                class="square"
-                style="--pixel-colour: {{.ColourHex}}"
-                hx-patch="/square/{{.ID}}"
-                hx-target="this"
-                hx-swap="outerHTML">
-            </div>
+            {{template "square" .}}
             {{end}}
 
         </div>
