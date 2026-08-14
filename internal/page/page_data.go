@@ -1,10 +1,7 @@
 package page
 
-type Square struct {
-	ID        int
-	ColourHex string
-}
+import "livepixelshtmx/internal/game"
 
 type PageData struct {
-	Squares []Square
+	Squares []game.Square
 }
