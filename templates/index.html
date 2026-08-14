@@ -5,7 +5,9 @@
         <link rel="stylesheet" href="/static/global.css">
     </head>
     <body>
-        <div class="squares-grid">
+        <div class="squares-grid"
+            style="--num-cols: repeat({{.Cfg.NumCols}}, 1fr); --num-rows: repeat({{.Cfg.NumRows}}, 1fr);"
+        >
 
             {{range .Squares}}
             {{template "square" .}}

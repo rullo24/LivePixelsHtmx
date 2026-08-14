@@ -8,8 +8,8 @@ import (
 )
 
 type CliConfig struct {
-	NumColumns int
-	NumRows    int
+	NumCols int
+	NumRows int
 }
 
 // DESCRIPTION
@@ -20,8 +20,8 @@ func (c *CliConfig) ParseArgs() error {
 		Short:   "A pixel canvas server that updates in real-time.",
 		Example: `./livepixelshtmx --num-cols=3 --num-rows=3`,
 		RunE: func(cmd *cobra.Command, args []string) error {
-			if c.NumColumns <= 0 {
-				return fmt.Errorf("num-cols must be +ve (num-cols=%d)", c.NumColumns)
+			if c.NumCols <= 0 {
+				return fmt.Errorf("num-cols must be +ve (num-cols=%d)", c.NumCols)
 			}
 
 			if c.NumRows <= 0 {
@@ -32,7 +32,7 @@ func (c *CliConfig) ParseArgs() error {
 		},
 	}
 
-	rootCmd.Flags().IntVar(&c.NumColumns, "num-cols", game.DEFAULT_NUM_COLUMNS, "number of grid columns")
+	rootCmd.Flags().IntVar(&c.NumCols, "num-cols", game.DEFAULT_NUM_COLUMNS, "number of grid columns")
 	rootCmd.Flags().IntVar(&c.NumRows, "num-rows", game.DEFAULT_NUM_ROWS, "number of grid rows")
 
 	return rootCmd.Execute()

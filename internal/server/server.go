@@ -20,6 +20,7 @@ var pageTmpl = template.Must(template.ParseFiles(
 type Server struct {
 	tmpl    *template.Template
 	squares []game.Square
+	cfg     *cli.CliConfig
 }
 
 // DESCRIPTION
@@ -27,7 +28,7 @@ type Server struct {
 func NewServerWithTemplate(cfg *cli.CliConfig, tmpl *template.Template) *Server {
 
 	// creating squares with random start states
-	var totalNumSquares int = cfg.NumColumns * cfg.NumRows
+	var totalNumSquares int = cfg.NumCols * cfg.NumRows
 	var squares []game.Square = make([]game.Square, totalNumSquares)
 	for i := range squares {
 		var currSquare game.Square = game.Square{}
@@ -40,6 +41,7 @@ func NewServerWithTemplate(cfg *cli.CliConfig, tmpl *template.Template) *Server 
 	return &Server{
 		tmpl:    tmpl,
 		squares: squares,
+		cfg:     cfg,
 	}
 }
 
@@ -48,8 +50,10 @@ func NewServerWithTemplate(cfg *cli.CliConfig, tmpl *template.Template) *Server 
 func (s *Server) IndexGetHandler(w http.ResponseWriter, r *http.Request) {
 	data := struct {
 		Squares []game.Square
+		Cfg     *cli.CliConfig
 	}{
 		Squares: s.squares,
+		Cfg:     s.cfg,
 	}
 
 	if err := s.tmpl.ExecuteTemplate(w, "index.html", data); err != nil {
