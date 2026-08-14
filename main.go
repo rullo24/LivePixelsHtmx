@@ -3,10 +3,10 @@ package main
 import (
 	"html/template"
 	"livepixelshtmx/internal/cli"
-
-	// "livepixelshtmx/internal/server"
+	"livepixelshtmx/internal/server"
 	"log"
 	"net/http"
+	"strconv"
 )
 
 func main() {
@@ -16,17 +16,20 @@ func main() {
 		log.Fatalf("Failed to parse arguments: (%s)", err.Error())
 	}
 
-	// parse HTML templates for static init
-	var pageTmpl = template.Must(template.ParseFiles(
+	// creating new server instances
+	var mux *http.ServeMux = http.NewServeMux()
+	var tmpl *template.Template = template.Must(template.ParseFiles(
 		"templates/index.html",
 		"templates/square.html",
 	))
+	var srv *server.Server = server.NewServerWithTemplate(cfg, tmpl)
 
-	var mux *http.ServeMux = http.NewServeMux()
+	// set callbacks against POST
+	mux.HandleFunc("GET /", srv.IndexGetHandler)
+	mux.HandleFunc("PATCH /square/{id}", srv.SquarePatchHandler)
 
-	// render base HTML, using parsed parameters
-
-	// showcase HTML on network
-
-	// use HTMX to real-time capture clicks on squares and update, live
+	// start listening server on selected network port
+	log.Printf("Listening on :%d\n", server.HOSTED_NETWORK_PORT)
+	var portStr string = ":" + strconv.Itoa(server.HOSTED_NETWORK_PORT)
+	log.Fatal(http.ListenAndServe(portStr, mux))
 }
