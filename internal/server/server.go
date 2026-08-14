@@ -82,7 +82,7 @@ func (s *Server) SquarePatchHandler(w http.ResponseWriter, r *http.Request) {
 	s.squares[id].SetColourToRandom()
 
 	// update template to render new coloured square
-	if err := s.tmpl.ExecuteTemplate(w, "square", s.squares[id]); err != nil {
+	if err := s.tmpl.ExecuteTemplate(w, "square", &s.squares[id]); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
