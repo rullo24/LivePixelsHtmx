@@ -1,4 +1,4 @@
-package structs
+package page
 
 type Square struct {
 	ColourHex string
