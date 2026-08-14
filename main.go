@@ -28,6 +28,10 @@ func main() {
 	mux.HandleFunc("GET /", srv.IndexGetHandler)
 	mux.HandleFunc("PATCH /square/{id}", srv.SquarePatchHandler)
 
+	// allow server mux to access local assets
+	mux.Handle("GET /static/", http.StripPrefix("/static/", http.FileServer(http.Dir("static"))))
+	mux.Handle("GET /assets/", http.StripPrefix("/assets/", http.FileServer(http.Dir("assets"))))
+
 	// start listening server on selected network port
 	log.Printf("Listening on :%d\n", server.HOSTED_NETWORK_PORT)
 	var portStr string = ":" + strconv.Itoa(server.HOSTED_NETWORK_PORT)
