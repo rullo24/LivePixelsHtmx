@@ -8,11 +8,14 @@ import (
 func main() {
 
 	// capturing flags from user
-	var cli *cli.CliConfig = &cli.CliConfig{}
-	if err := cli.ParseArgs(); err != nil {
+	var cfg *cli.CliConfig = &cli.CliConfig{}
+	if err := cfg.ParseArgs(); err != nil {
 		log.Fatalf("Failed to parse arguments: (%s)", err.Error())
 	}
 
-	// spawn
+	// render base HTML, using parsed parameters
 
+	// showcase HTML on network
+
+	// use HTMX to real-time capture clicks on squares and update, live
 }

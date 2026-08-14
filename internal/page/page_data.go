@@ -1,6 +1,7 @@
 package page
 
 type Square struct {
+	ID        int
 	ColourHex string
 }
 

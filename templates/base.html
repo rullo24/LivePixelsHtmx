@@ -1,13 +1,22 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <link rel="stylesheet" href="../css/global.css">
+        <script src="/assets/htmx.min.js"></script>
+        <link rel="stylesheet" href="/static/global.css">
     </head>
     <body>
         <div class="squares-grid">
-            {{range .Squares}}
 
+            {{range .Squares}}
+            <div id="square-{{.ID}}"
+                class="square"
+                style="--pixel-colour: {{.ColourHex}}"
+                hx-patch="/square/{{.ID}}"
+                hx-target="this"
+                hx-swap="outerHTML">
+            </div>
             {{end}}
+
         </div>
     </body>
 </html>
