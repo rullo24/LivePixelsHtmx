@@ -5,6 +5,7 @@ import (
 	"livepixelshtmx/internal/cli"
 	"livepixelshtmx/internal/game"
 	"net/http"
+	"strconv"
 )
 
 const (
@@ -64,5 +65,26 @@ func (s *Server) IndexGetHandler(w http.ResponseWriter, r *http.Request) {
 // DESCRIPTION
 // Handler func that runs when POST PATCH is called on square id (/square/{id})
 func (s *Server) SquarePatchHandler(w http.ResponseWriter, r *http.Request) {
+	var idStr string = r.PathValue("id")
+	id, strConvToIntErr := strconv.Atoi(idStr)
+	if strConvToIntErr != nil {
+		http.Error(w, "Invalid ID parsed", http.StatusBadRequest)
+		return
+	}
+
+	// check bounds of returned square ID
+	if id < 0 || id >= len(s.squares) {
+		http.Error(w, "Square not found", http.StatusNotFound)
+		return
+	}
+
+	// change colour of square that was pressed
+	s.squares[id].SetColourToRandom()
+
+	// update template to render new coloured square
+	if err := s.tmpl.ExecuteTemplate(w, "square", s.squares[id]); err != nil {
+		http.Error(w, err.Error(), http.StatusInternalServerError)
+		return
+	}
 
 }
