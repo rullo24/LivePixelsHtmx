@@ -31,6 +31,7 @@ func NewServerWithTemplate(cfg *cli.CliConfig, tmpl *template.Template) *Server 
 	var squares []game.Square = make([]game.Square, totalNumSquares)
 	for i := range squares {
 		var currSquare game.Square = game.Square{}
+		currSquare.ID = i              // setting index
 		currSquare.SetColourToRandom() // rand colour before assignment
 		squares[i] = currSquare
 	}
@@ -45,7 +46,13 @@ func NewServerWithTemplate(cfg *cli.CliConfig, tmpl *template.Template) *Server 
 // DESCRIPTION
 // Handler func that runs when POST GET is called on root (/)
 func (s *Server) IndexGetHandler(w http.ResponseWriter, r *http.Request) {
-	if err := s.tmpl.ExecuteTemplate(w, "index.html", s.squares); err != nil {
+	data := struct {
+		Squares []game.Square
+	}{
+		Squares: s.squares,
+	}
+
+	if err := s.tmpl.ExecuteTemplate(w, "index.html", data); err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
 }

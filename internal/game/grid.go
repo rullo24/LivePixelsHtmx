@@ -13,16 +13,14 @@ const (
 )
 
 type Square struct {
-	id     int
-	colour color.RGBA
+	ID     int
+	Colour color.RGBA
 }
 
-func NewSquare(id int, colourHex string) Square {
-	var newSquare Square = Square{
-		id: id,
-	}
-	newSquare.SetColourFromHex(colourHex)
-	return newSquare
+// DESCRIPTION
+// Get the hex string value from the colour
+func (s *Square) Hex() string {
+	return fmt.Sprintf("#%02x%02x%02x", s.Colour.R, s.Colour.G, s.Colour.B)
 }
 
 // DESCRIPTION
@@ -40,7 +38,7 @@ func (s *Square) SetColourFromHex(newHex string) error {
 	}
 
 	// replacing current colour
-	s.colour = color.RGBA{
+	s.Colour = color.RGBA{
 		R: uint8(hexVal>>16) & 0xff,
 		G: uint8(hexVal>>8) & 0xff,
 		B: uint8(hexVal>>0) & 0xff,
@@ -54,7 +52,7 @@ func (s *Square) SetColourFromHex(newHex string) error {
 // Selects random colour and applies it to the current square
 func (s *Square) SetColourToRandom() {
 	var randomInt = rand.Int()
-	s.colour = color.RGBA{
+	s.Colour = color.RGBA{
 		R: uint8(randomInt>>16) & 0xff,
 		G: uint8(randomInt>>8) & 0xff,
 		B: uint8(randomInt>>0) & 0xff,
